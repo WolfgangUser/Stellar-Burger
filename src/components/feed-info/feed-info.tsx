@@ -1,7 +1,9 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { TOrder } from '@utils-types';
-import { FeedInfoUI } from '../ui/feed-info';
+import { FeedInfoUI } from '@ui';
+import { useDispatch, useSelector } from '../../services/store';
+import { getFeed, selectFeed } from '../../services/slices/feed-slice';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
   orders
@@ -11,8 +13,9 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
 
 export const FeedInfo: FC = () => {
   /** TODO: взять переменные из стора */
-  const orders: TOrder[] = [];
-  const feed = {};
+  const feed = useSelector(selectFeed);
+  const orders = feed?.orders || [];
+  const dispatch = useDispatch();
 
   const readyOrders = getOrders(orders, 'done');
 
