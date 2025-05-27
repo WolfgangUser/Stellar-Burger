@@ -4,13 +4,16 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
-import { fetchOrderByNumber, selectIsNumberOrderLoading, selectOrderModalData } from '../../services/slices/order-slice';
+import {
+  fetchOrderByNumber,
+  selectIsNumberOrderLoading,
+  selectOrderModalData
+} from '../../services/slices/order-slice';
 import { selectIngredients } from '../../services/slices/ingredients-slice';
 
 export const OrderInfo: FC = () => {
-  const {number} = useParams();
-  if(!number)
-    return <h1>No number</h1>
+  const { number } = useParams();
+  if (!number) return <h1>No number</h1>;
   const isLoading = useSelector(selectIsNumberOrderLoading);
   const dispatch = useDispatch();
   // const orderData = {
@@ -25,9 +28,9 @@ export const OrderInfo: FC = () => {
 
   const orderData = useSelector(selectOrderModalData);
 
-  useEffect(() =>{
+  useEffect(() => {
     dispatch(fetchOrderByNumber(+number));
-  }, [number])
+  }, [number]);
 
   const ingredients: TIngredient[] = useSelector(selectIngredients);
 

@@ -2,9 +2,13 @@ import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
-import { getFeed, selectError, selectFeed, selectFeedOrders, selectIsLoading } from '../../services/slices/feed-slice';
-import { useDispatch } from '../../services/store';
-import { useSelector } from 'react-redux';
+import {
+  fetchFeedItems,
+  selectError,
+  selectFeed,
+  selectIsLoading
+} from '../../services/slices/feed-slice';
+import { useDispatch, useSelector } from '../../services/store';
 
 export const Feed: FC = () => {
   /** TODO: взять переменную из стора */
@@ -14,11 +18,11 @@ export const Feed: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getFeed());
+    dispatch(fetchFeedItems());
   }, [dispatch]);
 
   const handleGetFeeds = () => {
-    dispatch(getFeed());
+    dispatch(fetchFeedItems());
   };
 
   if (loading) return <Preloader />;

@@ -24,7 +24,7 @@ export type IIngredientsState = {
   error: null | SerializedError;
 };
 
-const initialState: IIngredientsState = {
+export const initialState: IIngredientsState = {
   items: [],
   buns: [],
   mains: [],
@@ -58,7 +58,8 @@ const ingredientsSlice = createSlice({
 });
 
 export const selectIngredients = (state: RootState) => state.ingredients.items;
-export const selectIngredient = (state: RootState, id: string) => state.ingredients.items.find(x => x._id === id);
+export const selectIngredient = (state: RootState, id: string) =>
+  state.ingredients.items.find((x) => x._id === id);
 export const selectBuns = (state: RootState) => state.ingredients.buns;
 export const selectMains = (state: RootState) => state.ingredients.mains;
 export const selectSauces = (state: RootState) => state.ingredients.sauces;

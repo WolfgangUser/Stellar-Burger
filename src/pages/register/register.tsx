@@ -1,8 +1,11 @@
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
-import { useDispatch } from '../../services/store';
-import { registerUser, selectIsAuthed, selectRegisterError } from '../../services/slices/user-slice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
+import {
+  registerUser,
+  selectIsAuthed,
+  selectRegisterError
+} from '../../services/slices/user-slice';
 import { useNavigate } from 'react-router-dom';
 
 export const Register: FC = () => {
@@ -19,12 +22,11 @@ export const Register: FC = () => {
     }
   }, [isAuthed, navigate]);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(registerUser({email, name: userName, password}))
+    dispatch(registerUser({ email, name: userName, password }));
   };
-
 
   return (
     <RegisterUI

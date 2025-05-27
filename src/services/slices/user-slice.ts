@@ -1,21 +1,33 @@
-import { getUserApi, loginUserApi, logoutApi, registerUserApi, TLoginData, TRegisterData, updateUserApi } from "@api";
-import { createAsyncThunk, createSlice, SerializedError } from "@reduxjs/toolkit";
-import { TUser } from "@utils-types";
-import { RootState } from "../store";
-import { deleteCookie, setCookie } from "../../utils/cookie";
-import { stat } from "fs";
+import {
+  getUserApi,
+  loginUserApi,
+  logoutApi,
+  registerUserApi,
+  TLoginData,
+  TRegisterData,
+  updateUserApi
+} from '@api';
+import {
+  createAsyncThunk,
+  createSlice,
+  SerializedError
+} from '@reduxjs/toolkit';
+import { TUser } from '@utils-types';
+import { RootState } from '../store';
+import { deleteCookie, setCookie } from '../../utils/cookie';
+import { stat } from 'fs';
 
 export interface UserState {
-    data: TUser | null,
-    isAuthed: boolean,
-    loginError?: SerializedError
-    registerError?: SerializedError
+  data: TUser | null;
+  isAuthed: boolean;
+  loginError?: SerializedError;
+  registerError?: SerializedError;
 }
 
-const initialState: UserState = {
-    data: null,
-    isAuthed: false
-}
+export const initialState: UserState = {
+  data: null,
+  isAuthed: false
+};
 
 export const registerUser = createAsyncThunk<TUser, TRegisterData>(
   'user/register',
@@ -47,7 +59,7 @@ export const logout = createAsyncThunk<void, void>(
   'user/logout',
   async (_, { rejectWithValue }) => {
     await logoutApi();
-    deleteCookie('accessToken')
+    deleteCookie('accessToken');
     localStorage.removeItem('refreshToken');
   }
 );
@@ -98,11 +110,11 @@ const userSlice = createSlice({
           : action.error;
         alert(state.registerError.message);
       })
-      .addCase(loginUser.pending, (state) =>{
+      .addCase(loginUser.pending, (state) => {
         state.isAuthed = false;
         state.registerError = undefined;
       })
-      .addCase(loginUser.fulfilled, (state, action) =>{
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.registerError = undefined;
         state.isAuthed = true;
         state.data = action.payload;
@@ -114,17 +126,17 @@ const userSlice = createSlice({
           ? (action.payload as SerializedError)
           : action.error;
       })
-      .addCase(fetchUser.pending, (state) =>{
+      .addCase(fetchUser.pending, (state) => {
         state.registerError = undefined;
         state.isAuthed = false;
         state.data = null;
       })
-      .addCase(fetchUser.fulfilled, (state, action) =>{
+      .addCase(fetchUser.fulfilled, (state, action) => {
         state.registerError = undefined;
         state.isAuthed = true;
         state.data = action.payload;
       })
-      .addCase(updateUser.fulfilled, (state, action) =>{
+      .addCase(updateUser.fulfilled, (state, action) => {
         state.data = action.payload;
       })
       .addCase(logout.fulfilled, (state) => {
@@ -132,13 +144,13 @@ const userSlice = createSlice({
         state.data = null;
         state.registerError = undefined;
         state.loginError = undefined;
-      })
-      
+      });
   }
 });
 export const selectIsAuthed = (state: RootState) => state.user.isAuthed;
 export const selectUserData = (state: RootState) => state.user.data;
 export const selectLoginError = (state: RootState) => state.user.loginError;
-export const selectRegisterError = (state: RootState) => state.user.registerError;
+export const selectRegisterError = (state: RootState) =>
+  state.user.registerError;
 
 export default userSlice.reducer;

@@ -8,6 +8,7 @@ import {
   ProfileIcon
 } from '@zlden/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
+import clsx from 'clsx';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
   <header className={styles.header}>
@@ -16,7 +17,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
         <NavLink
           to='/'
           className={({ isActive }) =>
-            isActive ? styles.link_active : styles.link
+            clsx(styles.link, { [styles.link_active]: isActive })
           }
         >
           {({ isActive }) => (
@@ -31,7 +32,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
         <NavLink
           to='/feed'
           className={({ isActive }) =>
-            isActive ? styles.link_active : styles.link
+            clsx(styles.link, { [styles.link_active]: isActive })
           }
         >
           {({ isActive }) => (
@@ -49,7 +50,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
         <NavLink
           to='/profile'
           className={({ isActive }) =>
-            isActive ? styles.link_active : styles.link
+            clsx(styles.link, { [styles.link_active]: isActive })
           }
         >
           {({ isActive }) => (
