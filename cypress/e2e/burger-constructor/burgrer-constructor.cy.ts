@@ -13,9 +13,10 @@ describe('Testing modal functionality', () => {
     it('Should open and close the modal window', () => {
         cy.get('#modals').as('modal');
         cy.contains('Краторная булка').click();
-        cy.get('@modal').should('contain.text', 'Краторная булка');
-        cy.get('@modal').find('button').click();
-        cy.get('@modal').should('not.exist');
+        const windowSelector = '@modal';
+        cy.get(windowSelector).contains('Краторная булка');
+        cy.get(windowSelector).find('button').click();
+        cy.contains(windowSelector).should('not.exist');
     });
 });
 
@@ -75,5 +76,14 @@ describe('Burger constructor scenarios', () => {
         cy.get('@modal').find('button').click();
         cy.contains('Выберите булки');
         cy.contains('Выберите начинку');
+    });
+
+    it('Ingredients are added in constructor', () => {
+        cy.contains('Краторная булка').closest('li').find('button').click();
+        cy.contains('Биокотлета').closest('li').find('button').click();
+
+       cy.contains('Краторная булка N-200i (верх)');
+       cy.contains('Краторная булка N-200i (низ)');
+       cy.contains('Оформить').closest('section').contains('Биокотлета из марсианской Магнолии');
     });
 });
